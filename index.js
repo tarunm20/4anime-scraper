@@ -125,7 +125,50 @@ class Scraper{
     );
   }
 
+  async getOngoingLinks() {
+    let pageCount = 1;
+    let animeLinks = [];
+    let htmlSource = "";
+    while(htmlSource != null) {
+      await axios.get("https://4anime.to/browse?_sft_status=airing&sf_paged=" + pageCount)
+        .then(res => {
+          const $ = cheerio.load(res.data);
+          htmlSource = $(".wp-pagenavi").html();
+          $("#headerDIV_3").each((i, elm) => {
+            animeLinks.push($(elm).find("#headerA_7").attr("href"))
+          })
+        }).catch(err => {
+          console.log(err);
+        });
+      pageCount++;
+    }
+    return animeLinks;
+  }
 
+  async getOngoingNames(ongoingLinks) {
+    let ongoingNames = [];
+    for(let link of ongoingLinks) {
+      await axios.get(link)
+        .then(res => {
+          const $ = cheerio.load(res.data);
+          ongoingNames.push($(".single-anime-desktop").text());
+        });
+    }
+    return ongoingNames;
+  }
+
+  async getOngoingData(ongoingLinks) {
+    let ongoingData = [];
+    for(let link of ongoingLinks) {
+      await this.getAnimeFromURL(link)
+        .then(res => {
+          ongoingData.push(res);
+        }).catch(err => {
+          console.log(err)
+        })
+    }
+    return ongoingData;
+  }
 
 }
 
