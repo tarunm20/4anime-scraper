@@ -17,6 +17,7 @@ Anime {
   name: string,
   genres: array of strings,
   description: string,
+  imageUrl: string,
   type: string,
   studio: string,
   releaseDate: string,
@@ -103,6 +104,17 @@ Anime {
 const Anime = require('4anime-scraper').default;
 
 Anime.getAnimeFromSearch("enen no shouboutai")
+	.then(res => {
+		console.log(res);
+	});
+```
+
+
+### Getting the video link from an episode url 
+```javascript
+const Anime = require('4anime-scraper').default;
+
+Anime.getVideoLinkFromUrl("https://4anime.to/one-piece-episode-938?id=43181")
 	.then(res => {
 		console.log(res);
 	});

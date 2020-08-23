@@ -109,6 +109,28 @@ class Scraper {
     );
   }
 
+  getVideoLinkFromUrl(episodeUrl) {
+    return (
+      axios.get(episodeUrl)
+        .then(async res => {
+          const $ = cheerio.load(res.data);
+
+          //Get video link by regex
+          let regexVideoLinks = /class=\\"(mirror_dl\\)" href=\\"([^"]+)"/g
+
+          //Get link
+          let nonCleanedUrl = res.data.match(regexVideoLinks)[0]
+
+          // clean url by removing tags
+          let videoLink = this.cleanUpLink(nonCleanedUrl)
+
+          return videoLink;
+        }).catch(err => {
+          console.log(err);
+        })
+    );
+  }
+
   getAnimeFromSearch(animeSearch) {
     return (
       this.getAnimeSearchURL(animeSearch)
@@ -172,6 +194,13 @@ class Scraper {
         })
     }
     return ongoingData;
+  }
+
+  cleanUpLink(url) {
+    return url.substring(
+      url.lastIndexOf("http"),
+      url.lastIndexOf("\\")
+    )
   }
 
 }
