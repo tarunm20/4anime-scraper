@@ -115,7 +115,7 @@ class Scraper {
         .then(async res => {
           const $ = cheerio.load(res.data);
 
-          //Get video link by regex
+          //Regex
           let regexVideoLinks = /class=\\"(mirror_dl\\)" href=\\"([^"]+)"/g
 
           //Get link
