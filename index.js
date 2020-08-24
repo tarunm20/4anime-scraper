@@ -26,6 +26,7 @@ class Scraper {
     );
   }
 
+  //Returns an Anime object given a complete url
   getAnimeFromURL(animeURL) {
     return (
       axios.get(animeURL)
@@ -109,6 +110,7 @@ class Scraper {
     );
   }
 
+  //Returns a video link of an episode given a complete url of an episode
   getVideoLinkFromUrl(episodeUrl) {
     return (
       axios.get(episodeUrl)
@@ -131,6 +133,7 @@ class Scraper {
     );
   }
 
+  //Returns an array of Anime objects given a search query
   getAnimeFromSearch(animeSearch) {
     return (
       this.getAnimeSearchURL(animeSearch)
@@ -151,6 +154,7 @@ class Scraper {
     );
   }
 
+  //Returns an array of all ongoing anime links
   async getOngoingLinks() {
     let pageCount = 1;
     let animeLinks = [];
@@ -171,6 +175,7 @@ class Scraper {
     return animeLinks;
   }
 
+  //Returns an array of all ongoing anime names
   async getOngoingNames(ongoingLinks) {
     let ongoingNames = [];
     for (let link of ongoingLinks) {
@@ -183,17 +188,18 @@ class Scraper {
     return ongoingNames;
   }
 
-  async getOngoingData(ongoingLinks) {
-    let ongoingData = [];
-    for (let link of ongoingLinks) {
+  //Returs an array of Anime objects given an array of links to the anime page
+  async getDataFromLinks(links) {
+    let allData = [];
+    for (let link of links) {
       await this.getAnimeFromURL(link)
         .then(res => {
-          ongoingData.push(res);
+          allData.push(res);
         }).catch(err => {
           console.log(err)
         })
     }
-    return ongoingData;
+    return allData;
   }
 
   cleanUpLink(url) {

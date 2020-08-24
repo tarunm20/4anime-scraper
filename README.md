@@ -120,6 +120,27 @@ Anime.getVideoLinkFromUrl("https://4anime.to/one-piece-episode-938?id=43181")
 	});
 ```
 
+### Getting ongoing anime links
+```javascript
+Anime.getOngoingLinks()
+  .then(res => {
+    console.log(res);
+  });
+``` 
+
+## Changes
+* Added function to get video link from an episode url
+* Added function to get all ongoing anime urls and names
+* Added function to return an array of Anime objects given an array of links
+* Added image url to Anime object
+
+## Contribution
+If you would like to add to this package please feel free to send in a pull request.
+
+### Contributors
+* Bondiiisan
+
+
 ## Other
 If you would like to check out the code there will be a link to the github page. 
 
