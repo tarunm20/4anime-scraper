@@ -1,5 +1,6 @@
 const axios = require('axios');
 const cheerio = require('cheerio');
+const urlStatusCode = require('url-status-code');
 const anime = require('./anime');
 const Anime = require('./anime').Anime
 
@@ -84,7 +85,7 @@ class Scraper {
             let episodeData = {
               id: parseInt($(elm).find("a").attr("href").substring(idIndex)),
               episode: parseInt($(elm).text()),
-              url: $(elm).find("a").attr("href")
+              url: $(elm).find("a").attr("href").split("/?")[0]
             };
 
             animeEpisodes.push(episodeData);
@@ -113,7 +114,7 @@ class Scraper {
   //Returns a video link of an episode given a complete url of an episode
   getVideoLinkFromUrl(episodeUrl) {
     return (
-      axios.get(episodeUrl)
+      axios.get(episodeUrl.split("/?")[0])
         .then(async res => {
           const $ = cheerio.load(res.data);
 
@@ -125,6 +126,12 @@ class Scraper {
 
           // clean url by removing tags
           let videoLink = this.cleanUpLink(nonCleanedUrl)
+
+          // change legacy (4anime.me) links to google cloud storage links
+          const gcs_address = 'https://storage.googleapis.com/justawesome-183319.appspot.com/';
+          if (await urlStatusCode(videoLink) == 403) {
+            videoLink = gcs_address + videoLink.substring(videoLink.indexOf('//')+2,videoLink.indexOf('?'));
+          }
 
           return videoLink;
         }).catch(err => {
