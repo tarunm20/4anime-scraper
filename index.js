@@ -47,20 +47,18 @@ class Scraper {
           });
 
           //Organize panelData
-          let panelData = animeGenres.pop(animeGenres.length - 1);
-          panelData = panelData.split("   ");
-          if (panelData[0] == '  Bookmark') {
-            panelData.shift();
-          }
-          if (panelData[0] == ' Change color of watched') {
-            panelData.shift();
-          }
+          let panelData = [];
+          $(".details").children().each((i, elm) => {
+            panelData.push($(elm).text())
+          })
+          panelData.shift();
+
           panelData[0] = panelData[0].split(" Type "); //type
           panelData[1] = panelData[1].split("Studio "); //studio
           panelData[2] = panelData[2].split("Release Date (JP) "); //release date
           panelData[3] = panelData[3].split("Status "); //status
           panelData[4] = panelData[4].split("Language "); //language
-          console.log(panelData)
+          // console.log(panelData)
 
           //Fix studio bug
           if (panelData[1][1] == '') {
