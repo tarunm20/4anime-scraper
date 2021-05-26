@@ -45,6 +45,7 @@ class Scraper {
               animeGenres.push(rawGenres[0]);
             }
           });
+          animeGenres.pop()
 
           //Organize panelData
           let panelData = [];
@@ -98,11 +99,11 @@ class Scraper {
             animeGenres,
             animeDes,
             imageUrl,
-            panelData[0].join(),
-            panelData[1].join().replace(",", ""),
-            panelData[2].join(),
-            panelData[3].join(),
-            panelData[4].join(),
+            panelData[0].join().slice(0, -1),
+            panelData[1].join().replace(",", "").slice(0, -1),
+            panelData[2].join().slice(0, -1),
+            panelData[3].join().slice(0, -1),
+            panelData[4].join().slice(0, -1),
             animeURL,
             animeEpisodes
           );

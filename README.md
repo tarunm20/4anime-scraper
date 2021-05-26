@@ -140,8 +140,6 @@ Anime.downloadVideoFromLink("https://storage.googleapis.com/justawesome-183319.a
 
 ## Changes
 * Fixed "undefined" TypeError in getAnimeFromURL
-* Fixed 403 errors in episode links
-* Added video download functionality
 
 ## Contribution
 If you would like to add to this package please feel free to send in a pull request.
